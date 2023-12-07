@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~>5.29.0"
     }
   }
@@ -13,4 +13,8 @@ terraform {
     dynamodb_table = "tf-locks-table"
     encrypt        = true
   }
+}
+
+data "aws_caller_identity" "me" {
+
 }
