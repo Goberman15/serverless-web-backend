@@ -1,2 +1,5 @@
 /.terraform
 *.lock.hcl
+
+**/archive
+**/Handler
