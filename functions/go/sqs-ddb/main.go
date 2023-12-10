@@ -38,7 +38,6 @@ func init() {
 	}
 
 	client = dynamodb.NewFromConfig(cfg)
-
 }
 
 func Handler(ctx context.Context, evt events.SQSEvent) error {
@@ -64,6 +63,9 @@ func Handler(ctx context.Context, evt events.SQSEvent) error {
 				"custID": &types.AttributeValueMemberN{
 					Value: fmt.Sprint(order.CustomerId),
 				},
+				"item": &types.AttributeValueMemberS{
+					Value: order.Item,
+				},
 				"price": &types.AttributeValueMemberN{
 					Value: fmt.Sprint(order.Price),
 				},
@@ -72,6 +74,9 @@ func Handler(ctx context.Context, evt events.SQSEvent) error {
 				},
 				"total": &types.AttributeValueMemberN{
 					Value: fmt.Sprint(order.Price * order.Quantity),
+				},
+				"isPaid": &types.AttributeValueMemberBOOL{
+					Value: false,
 				},
 			},
 		}
