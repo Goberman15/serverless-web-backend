@@ -2,6 +2,12 @@ resource "aws_sns_topic" "downstream_topic" {
   name = "DownstreamTopic"
 }
 
+resource "aws_sns_topic_subscription" "webhook_subs" {
+  topic_arn = aws_sns_topic.downstream_topic.arn
+  protocol = "https"
+  endpoint = var.https_endpoint_target
+}
+
 resource "aws_sns_topic_policy" "downstream_topic_policy" {
   arn    = aws_sns_topic.downstream_topic.arn
   policy = data.aws_iam_policy_document.sns_policy.json
