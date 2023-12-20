@@ -33,6 +33,7 @@ func Handler(ctc context.Context, evt events.DynamoDBEvent) error {
 
 	for _, record := range evt.Records {
 		var message string
+		fmt.Printf("%+v\n", record)
 
 		newImage := record.Change.NewImage
 		if record.EventName == "INSERT" {
@@ -47,6 +48,8 @@ func Handler(ctc context.Context, evt events.DynamoDBEvent) error {
 			orderId := newImage["orderID"].String()
 
 			message = fmt.Sprintf("Customer Finish Payment for Order %s", orderId)
+		} else {
+			message = fmt.Sprintf("Remove Order with ID %s", record.Change.OldImage["orderID"].String())
 		}
 
 		publishInput := &sns.PublishInput{
@@ -59,7 +62,7 @@ func Handler(ctc context.Context, evt events.DynamoDBEvent) error {
 			return err
 		}
 
-		fmt.Println(out.MessageId)
+		fmt.Println(*out.MessageId)
 	}
 	return nil
 }
