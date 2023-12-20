@@ -10,6 +10,7 @@ data "aws_iam_policy_document" "dynamodb_write_policy_document" {
     effect = "Allow"
     actions = [
       "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
       "dynamodb:DescribeTable"
     ]
     resources = ["*"]
